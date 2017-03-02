@@ -46,7 +46,7 @@
 			sampler2D _MainTex;
 			sampler2D _SecondTex;
 			float _Tween;
-			float4 _Color;
+			float3 _Color;
 
 			float4 frag(v2f i) : SV_Target
 			{
@@ -56,6 +56,7 @@
 				float4 color2 = tex2D(_SecondTex, i.uv);
 
 				float4 color = lerp(color1, color2, _Tween);
+				color = 
 
 				return color;
 			}
