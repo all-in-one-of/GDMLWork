@@ -35,18 +35,22 @@
 				float2 uv : TEXCOORD0;
 			};
 
+			sampler2D _MainTex;
+			sampler2D _SecondTex;
+			float4 _MainTex_ST;
+			float4 _SecondTex_ST;
+			float _Tween;
+			float3 _Color;
+
 			v2f vert(appdata v)
 			{
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.uv = v.uv;
+				o.uv = v.uv * lerp(_MainTex_ST,_SecondTex_ST,_Tween);
 				return o;
 			}
 
-			sampler2D _MainTex;
-			sampler2D _SecondTex;
-			float _Tween;
-			float3 _Color;
+
 
 			float4 frag(v2f i) : SV_Target
 			{
@@ -56,7 +60,8 @@
 				float4 color2 = tex2D(_SecondTex, i.uv);
 
 				float4 color = lerp(color1, color2, _Tween);
-				color = 
+				color = float4(color.x * _Color.x, color.y * _Color.y, color.z * _Color.z, color.w);
+				//color = 
 
 				return color;
 			}
